@@ -1,0 +1,42 @@
+version: "3"
+
+services:
+        # igs-service1
+        igs-service1:
+                container_name: igs-service1
+                image: gregigs/igs-service1
+                ports:
+                        - "127.0.0.1:5001:5000/tcp"
+
+        # igs-service2
+        igs-service2:
+                container_name: igs-service2
+                image: gregigs/igs-service2
+                ports:
+                        - "127.0.0.1:5002:5000/tcp"
+
+        # igs-service3
+        igs-service3:
+                container_name: igs-service3
+                image: gregigs/igs-service3
+                ports:
+                        - "127.0.0.1:5003:5000/tcp"
+
+
+        # igs-frontend
+        webapp:
+                container_name: igs-frontend
+                image: gregigs/igs-frontend
+                environment:
+                        - ASPNETCORE_Service1=http://127.0.0.1:5001/api/service1
+                        - ASPNETCORE_Service2=http://127.0.0.1:5002/api/service2
+                        - ASPNETCORE_Service3=http://127.0.0.1:5003/api/service3
+                links:
+                        - igs-service1
+                        - igs-service2
+                        - igs-service3
+                ports:
+                        - "127.0.0.1:80:80/tcp"
+
+
+
